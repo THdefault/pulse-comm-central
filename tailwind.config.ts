@@ -47,6 +47,20 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        medical: {
+          blue: "hsl(var(--medical-blue))",
+          "blue-light": "hsl(var(--medical-blue-light))",
+          green: "hsl(var(--medical-green))",
+          "green-light": "hsl(var(--medical-green-light))",
+          gray: "hsl(var(--medical-gray))",
+          "gray-light": "hsl(var(--medical-gray-light))",
+        },
+        status: {
+          online: "hsl(var(--status-online))",
+          busy: "hsl(var(--status-busy))",
+          away: "hsl(var(--status-away))",
+          offline: "hsl(var(--status-offline))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
