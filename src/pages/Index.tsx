@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRole } from "@/hooks/useUserRole";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,8 @@ import {
   AlertCircle,
   MessageCircle,
   Instagram,
-  Facebook
+  Facebook,
+  Shield
 } from "lucide-react";
 import { ChatInterface } from "@/components/ChatInterface";
 import { MetricsDashboard } from "@/components/MetricsDashboard";
@@ -27,6 +29,7 @@ const Index = () => {
   const [activeView, setActiveView] = useState("dashboard");
   const [userRole, setUserRole] = useState<"gerente" | "atendente" | "paciente">("gerente");
   const { user, signOut, loading } = useAuth();
+  const { role: currentUserRole, loading: roleLoading } = useUserRole();
   const navigate = useNavigate();
 
   // Redirect to auth if not logged in
@@ -69,7 +72,18 @@ const Index = () => {
             
             <div className="flex items-center gap-4">
               <StatusIndicator status="online" />
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
+                {currentUserRole === 'manager' && (
+                  <Button 
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => navigate('/users')}
+                    className="gap-2"
+                  >
+                    <Shield className="h-4 w-4" />
+                    Gerenciar Usuários
+                  </Button>
+                )}
                 <Button 
                   variant={userRole === "gerente" ? "default" : "outline"}
                   size="sm"
