@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,6 +26,30 @@ import heroImage from "@/assets/hero-medical-dashboard.jpg";
 const Index = () => {
   const [activeView, setActiveView] = useState("dashboard");
   const [userRole, setUserRole] = useState<"gerente" | "atendente" | "paciente">("gerente");
+  const { user, signOut, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-medical-blue-light/30 to-medical-green-light/30">
@@ -64,6 +90,13 @@ const Index = () => {
                   onClick={() => setUserRole("paciente")}
                 >
                   Paciente
+                </Button>
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={signOut}
+                >
+                  Sair
                 </Button>
               </div>
             </div>
